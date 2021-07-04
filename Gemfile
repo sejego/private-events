@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bulma-rails', '~> 0.9.1'
 gem 'devise', '~> 4.8'
 gem 'guard', '~> 2.17'
+gem 'better_errors', '~> 2.9', '>= 2.9.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

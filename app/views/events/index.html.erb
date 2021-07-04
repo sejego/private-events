@@ -1,4 +1,4 @@
 <h1> Upcoming Events </h1>
 <% @events.each do |event| %>
-    <%= event.name %>
+    <p><%= event.name %> - <%= event.location %> - <%= event.event_date %></p><br>
 <% end %>

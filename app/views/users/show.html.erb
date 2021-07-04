@@ -1,0 +1,10 @@
+<h1> Profile for user <%= @user.username %></h1>
+
+<h3> Name: <%= @user.name %></h3>
+<h3> Email: <%= @user.email %></h3>
+<h3> Hosted events: </h3>
+
+<% @created_events.each do |event| %>
+  <p><%= event.name %> - <%= event.location %> - <%= event.event_date %></p>
+  <br>
+<% end %>
