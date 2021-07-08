@@ -4,9 +4,14 @@
     || created by: <%= link_to @event.creators.username, user_path(@event.creators.id) %>
 </p>
 
+<% if current_user.username == @event.creators.username %>
+  <%= link_to 'Delete', event_path(@event), method: :delete %>
+  <%= link_to 'Edit', edit_event_path(@event) %>
+<% end %>
 <p>
   <strong>Attendees: </strong>
 </p>
+
 <% @event.attendees.each do |attendee| %>
   <%= link_to attendee.username, user_path(attendee.id) %>
   <br>
