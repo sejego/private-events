@@ -9,11 +9,34 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+  <nav>
+    <li>
+      <%= link_to('Home', root_path, method: :get) %>
+    </li>
+    <% if user_signed_in? %>
+      <li>
+        <%= link_to('Create an Event', new_event_path, method: :get) %>
+      </li>
+      <li>
+          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+      </li>
+    <% else %>
+      <li>
+          <%= link_to('Login', new_user_session_path)  %>
+      </li>
+    <% end %>
+  </nav>
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
     <%= yield %>
   </body>
+
+  <% unless current_page?(events_path) || current_page?(root_path) %>
+    <li>
+      <%= link_to 'Back', events_path %>
+    </li>
+  <% end %>
+  
 </html>

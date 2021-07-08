@@ -1,4 +1,8 @@
 <h1> Upcoming Events </h1>
 <% @events.each do |event| %>
-    <p><%= event.name %> - <%= event.location %> - <%= event.event_date %></p><br>
+    <p>
+    <%= event.name %> - <%= event.location %> - <%= event.event_date %> 
+    || created by: <%= link_to event.creators.username, user_path(event.creators.id) %>
+    </p>
+    <br>
 <% end %>

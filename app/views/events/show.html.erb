@@ -1,0 +1,13 @@
+<p>
+  <strong>Event:</strong>
+  <%= @event.name %> - <%= @event.location %> - <%= @event.event_date %> 
+    || created by: <%= link_to @event.creators.username, user_path(@event.creators.id) %>
+</p>
+
+<p>
+  <strong>Attendees: </strong>
+</p>
+<% @event.attendees.each do |attendee| %>
+  <%= link_to attendee.username, user_path(attendee.id) %>
+  <br>
+<% end %>

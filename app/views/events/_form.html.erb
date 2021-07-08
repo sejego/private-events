@@ -1,0 +1,6 @@
+<%= simple_form_for(@event) do |f| %>
+  <%= f.input :name, label: 'Name of the event', input_html: { maxlength: 30 } %>
+  <%= f.input :location, label: 'Location of the event' %>
+  <%= f.input :event_date, label: 'Date of the event' %>
+  <%= f.button :submit %>
+<% end %>
