@@ -26,10 +26,12 @@
         <%= link_to 'View', event, class:"card-footer-item" %>
         <% if user_signed_in? %>
           <% attendance = Attending.find_by(attended_event_id: event.id, attendee_id: current_user.id) %>
-          <% if current_user.attending?(event)%>
-            <%= link_to 'Unattend', attendance, method: :delete, class:"card-footer-item" %>
-          <% else %>  
-            <%= link_to 'Attend', attendings_path(event_id: event.id, user_id: current_user.id), method: :post, class:"card-footer-item" %>
+          <% unless current_user.username == event.creators.username %>
+            <% if current_user.attending?(event)%>
+              <%= link_to 'Unattend', attendance, method: :delete, class:"card-footer-item" %>
+            <% else %>  
+              <%= link_to 'Attend', attendings_path(event_id: event.id, user_id: current_user.id), method: :post, class:"card-footer-item" %>
+            <% end %>
           <% end %>
         <% end %>
       </footer>

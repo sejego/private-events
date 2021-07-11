@@ -15,7 +15,7 @@
     <nav class="navbar" role="navigation" aria-label="main-navigation">
       <div class="navbar-brand">
         <%= link_to events_path, class: 'navbar-item' do%> 
-          <%= image_tag("event_logo.jpg", width: 112, height: 28) %>
+          <%= image_tag("event_logo.jpg", width: 112, height: 52) %>
         <% end %>
         </a>
 
@@ -35,7 +35,7 @@
           <div class="navbar-end">
             <div class="buttons">
               <% if user_signed_in? %>
-                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "button is-danger is-light" %>
+                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "button is-primary" %>
               <% else %>
                 <%= link_to 'Login', new_user_session_path, class: "button is-success is-light"  %>
                 <%= link_to 'Sign Up', new_user_registration_path, class: "button is-primary" %>

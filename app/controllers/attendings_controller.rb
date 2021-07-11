@@ -14,9 +14,11 @@ before_action :authenticate_user!
       @attending = Attending.new(attended_event_id: params[:event_id], attendee_id: params[:user_id])
 
       if @attending.save
-          redirect_to event_path(@event)
-        else
-          redirect_to events_path
+        flash[:notice] = "You are now attending #{@event.name}"
+        redirect_to event_path(@event)
+      else
+        flash[:alert] = "Failed to enroll you for #{@event.name}"
+        redirect_to events_path
       end
     end
   end
@@ -24,10 +26,12 @@ before_action :authenticate_user!
   # DELETE /attendings/1 or /attendings/1.json
   def destroy
     @attending = Attending.find(params[:id])
-    @event = @attending.attended_event_id
+    @event = Event.find(@attending.attended_event_id) # find event by its ID from attendings
     if @attending.destroy
+      flash[:notice] = "You are no longer attending #{@event.name}"
       redirect_to event_path(@event)
     else
+      flash[:alert] = "Failed to unenroll you"
       redirect_to events_path
     end
   end
