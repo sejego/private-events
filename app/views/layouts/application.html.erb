@@ -7,39 +7,53 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  <nav>
-    <li>
-      <%= link_to('Home', root_path, method: :get) %>
-    </li>
-    <% if user_signed_in? %>
-      <li>
-        <%= link_to('Create an Event', new_event_path, method: :get) %>
-      </li>
-      <li>
-          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-      </li>
-    <% else %>
-      <li>
-          <%= link_to('Login', new_user_session_path)  %>
-      </li>
-      <li>
-          <%= link_to('Register', new_user_registration_path) %>
-      </li>
-    <% end %>
-  </nav>
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
 
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main-navigation">
+      <div class="navbar-brand">
+        <%= link_to events_path, class: 'navbar-item' do%> 
+          <%= image_tag("event_logo.jpg", width: 112, height: 28) %>
+        <% end %>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <%= link_to 'Events', events_path, method: :get, class: "navbar-item" %>
+            <% if user_signed_in? %>
+              <%= link_to 'Create an Event', new_event_path, method: :get, class: "navbar-item" %>
+            <% end %>
+        </div>
+          <div class="navbar-end">
+            <div class="buttons">
+              <% if user_signed_in? %>
+                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "button is-danger is-light" %>
+              <% else %>
+                <%= link_to 'Login', new_user_session_path, class: "button is-success is-light"  %>
+                <%= link_to 'Sign Up', new_user_registration_path, class: "button is-primary" %>
+              <% end %>
+            </div>
+          </div>
+      </nav>
+    <% if flash[:notice] %>
+      <div class="notification is-primary global-notification">
+        <p class="notice"><%= notice %></p>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="notification is-danger global-notification">
+        <p class="alert"><%= alert %></p>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
-
-  <% unless current_page?(events_path) || current_page?(root_path) %>
-    <li>
-      <%= link_to 'Back to homepage', events_path %>
-    </li>
-  <% end %>
-
 </html>

@@ -1,35 +1,46 @@
-<h1> Profile for user <%= @user.username %></h1>
+<div class="columns is-centered">
+  <div class="vertical-center">
+    <div class="box is-centered">
+      <h3 class="title is-3">Profile</h3>
+      <div class="content">
+        <strong> Username: </strong> <%= @user.username %>
+        <br>
+        <strong> Name: </strong> <%= @user.name %>
+        <br>
+        <strong> Email: </strong> <%= @user.email %>
 
-<h3> Name: <%= @user.name %></h3>
-<h3> Email: <%= @user.email %></h3>
+        <h3> Hosted events: </h3>
 
-<h3> Hosted events: </h3>
+        <% @user.created_events.each do |event| %>
+          <p><%= link_to event.name, event_path(event) %> - <%= event.location %> - <%= event.event_date.strftime("%b %-d, %Y") %> <%= event.event_date.strftime("at %I:%M %p")%></p>
+          <br>
+        <% end %>
 
-<% @user.created_events.each do |event| %>
-  <p><%= event.name %> - <%= event.location %> - <%= event.event_date %></p>
-  <br>
-<% end %>
+        <h3> Upcoming events: </h3>
 
-<h3> Upcoming events: </h3>
+        <% if @user.attended_events.where('event_date >=?', Date.today).any? %>
+          <% @user.attended_events.where('event_date >=?', Date.today).each do |event| %>
+              <p><%= link_to event.name, event_path(event) %> - <%= event.location %> - <%= event.event_date.strftime("%b %-d, %Y") %> <%= event.event_date.strftime("at %I:%M %p")%></p>
+              <br>
+          <% end %>
+        <% else %>
+          <p>No upcoming events</p>
+        <% end %>
+          <br>
 
-<% if @user.attended_events.where('event_date >=?', Date.today).any? %>
-  <% @user.attended_events.where('event_date >=?', Date.today).each do |event| %>
-      <p><%= event.name %> - <%= event.location %> - <%= event.event_date %></p>
-      <br>
-  <% end %>
-<% else %>
-  <p>No upcoming events</p>
-<% end %>
-  <br>
+        <h3> Attended events: </h3>
 
-<h3> Attended events: </h3>
+        <% if @user.attended_events.where('event_date < ?', Date.today).any? %>
+          <% @user.attended_events.where('event_date < ?', Date.today).each do |event| %>
+              <p><%= link_to event.name, event_path(event) %> - <%= event.location %> - <%= event.event_date.strftime("%b %-d, %Y") %> <%= event.event_date.strftime("at %I:%M %p")%></p>
+              <br>
+          <% end %>
+        <% else %>
+          <p>No attended events</p>
+        <% end %>
+          <br>
+      </div>
+    </div>
+  </div>
+</div>
 
-<% if @user.attended_events.where('event_date < ?', Date.today).any? %>
-  <% @user.attended_events.where('event_date < ?', Date.today).each do |event| %>
-      <p><%= event.name %> - <%= event.location %> - <%= event.event_date %></p>
-      <br>
-  <% end %>
-<% else %>
-  <p>No attended events</p>
-<% end %>
-  <br>

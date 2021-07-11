@@ -6,5 +6,11 @@ Rails.application.routes.draw do
   resources :users, only: [:show]
   resources :events
   resources :attendings, only: [:create, :delete]
-  root "events#index"
+  root "events#home"
+
+  resources :events do
+    collection do
+      get :home
+    end
+  end
 end

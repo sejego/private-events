@@ -1,6 +1,19 @@
 <%= simple_form_for(@event) do |f| %>
-  <%= f.input :name, label: 'Name of the event', input_html: { maxlength: 30 } %>
-  <%= f.input :location, label: 'Location of the event' %>
-  <%= f.input :event_date, label: 'Date of the event' %>
-  <%= f.button :submit %>
+  <div class="field">
+    <div class="control">
+
+      <%= f.input :name, input_html: { maxlength: 30 }, label_html: {class: "label"}, wrapper: false %>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <%= f.input :location, label: 'Location of the event', label_html: {class: "label"}, wrapper: false %>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <%= f.input :event_date, label: 'Date of the event', label_html: {class: "label"}, wrapper: false %>
+    </div>
+  </div>
+  <%= f.button :submit, class: 'button is-primary mr-1' %><%= link_to 'Cancel', events_path, class: 'button is-dark' %>
 <% end %>

@@ -1,17 +1,67 @@
-<h1> Upcoming Events </h1>
-<% @events.upcoming.each do |event| %>
-    <p>
-    <%= event.name %> - <%= event.location %> - <%= event.event_date %> 
-    || created by: <%= link_to event.creators.username, user_path(event.creators.id) %>
-    </p>
-    <br>
-<% end %>
 
-<h1> Recent Events </h1>
-<% @events.past.each do |event| %>
-    <p>
-    <%= event.name %> - <%= event.location %> - <%= event.event_date %> 
-    || created by: <%= link_to event.creators.username, user_path(event.creators.id) %>
-    </p>
-    <br>
+<h2 class="title is-2 has-text-centered">Upcoming Events</h2>
+
+<div class="columns is-mobile is-multiline ml-2 mr-2 mt-2">
+<% @events.upcoming.each do |event| %>
+  <div class="column is-2">
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title is-centered">
+          <%= event.name %>
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <strong> <%= event.name %> </strong>
+          <br>
+          <i class="fas fa-map-pin"></i> <%= event.location %>
+          <br>
+          Host: <%= link_to event.creators.username , user_path(event.creators) %>
+          <br>
+          <%= event.event_date.strftime("%b %-d, %Y") %> <%= event.event_date.strftime("at %I:%M %p") %>
+          <br>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <%= link_to 'View', event, class:"card-footer-item" %>
+        <% if user_signed_in? %>
+          <% attendance = Attending.find_by(attended_event_id: event.id, attendee_id: current_user.id) %>
+          <% if current_user.attending?(event)%>
+            <%= link_to 'Unattend', attendance, method: :delete, class:"card-footer-item" %>
+          <% else %>  
+            <%= link_to 'Attend', attendings_path(event_id: event.id, user_id: current_user.id), method: :post, class:"card-footer-item" %>
+          <% end %>
+        <% end %>
+      </footer>
+    </div>
+  </div>
 <% end %>
+</div>
+
+<h2 class="title is-2 has-text-centered">Recent Events</h2>
+<div class="columns is-mobile ml-2 mr-2 mt-2">
+  <% @events.past.each do |event| %>
+    <div class="column is-2">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-centered">
+            <%= event.name %>
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <strong> <%= event.name %> </strong> || Location: <%= event.location %>
+            <br>
+            Host: <%= link_to event.creators.username , user_path(event.creators) %>
+            <br>
+            <%= event.event_date.strftime("%b %-d, %Y") %> <%= event.event_date.strftime("at %I:%M %p") %>
+            <br>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <%= link_to 'View', event, class:"card-footer-item" %>
+        </footer>
+      </div>
+    </div>
+  <% end %>
+</div>

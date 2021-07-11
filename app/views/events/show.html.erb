@@ -1,20 +1,44 @@
-<p>
-  <strong>Event:</strong>
-  <%= @event.name %> - <%= @event.location %> - <%= @event.event_date %> 
-    || created by: <%= link_to @event.creators.username, user_path(@event.creators.id) %>
-</p>
 
-<% if current_user.username == @event.creators.username %>
-  <%= link_to 'Delete', event_path(@event), method: :delete %>
-  <%= link_to 'Edit', edit_event_path(@event) %>
-<% end %>
-<p>
-  <strong>Attendees: </strong>
-</p>
+<div class="columns is-centered">
+  <div class="vertical-center">
+    <div class="box is-centered">
+      <h3 class="title is-3">Event<h3>
+      <%= @event.name %> - <%= @event.location %> - <%= @event.event_date %>
+      <br>
+        created by: <%= link_to @event.creators.username, user_path(@event.creators.id) %>
+      <p>
+        <strong>Attendees: </strong>
+      </p>
+      <% @event.attendees.each do |attendee| %>
+        <%= link_to attendee.username, user_path(attendee.id) %>
+        <br>
+      <% end %>
+      <div class="buttons level-item level-right">
+        <% if user_signed_in? %>
+          <% unless current_user.username == @event.creators.username %>
+            <% if current_user.attending?(@event)%>
+              <% attendance = Attending.find_by(attended_event_id: @event.id, attendee_id: current_user.id) %>
+              <% # no idea why below line works...%>
+                <%= link_to attendance, method: :delete do %>
+                  <button class="button is-danger is-outlined mr-1">Unattend</button>
+                <% end %>
+              <% else %>
+                <%= link_to attendings_path(event_id: @event.id, user_id: current_user.id), method: :post, class: 'lever-item' do%>
+                  <button class="button is-success is-outlined mr-1">Attend</button>
+                <% end %>
+              <% end %>
+          <% end %>
 
-<% @event.attendees.each do |attendee| %>
-  <%= link_to attendee.username, user_path(attendee.id) %>
-  <br>
-<% end %>
-
-<%= link_to 'Enroll', attendings_path(event_id: @event.id, user_id: current_user.id), method: :post %>
+            <% if current_user.username == @event.creators.username %>
+              <%= link_to event_path(@event), method: :delete do %>
+                <button class="button is-danger is-outlined mr-1">Delete</button>
+              <% end %>
+              <%= link_to edit_event_path(@event), class: 'level-item' do %>
+                <button class="button is-info is-outlined mr-1">Edit</button>
+              <% end %>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

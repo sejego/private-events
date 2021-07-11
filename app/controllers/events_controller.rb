@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
 
 # check user
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:home]
   before_action :set_event, only: [:edit, :update, :destroy]
 
   def index
@@ -25,7 +25,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to root_path, notice: "Successfully created an event" }
+        format.html { redirect_to events_path, notice: "Successfully created an event" }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -42,7 +42,7 @@ class EventsController < ApplicationController
     if @event.present?
       @event.destroy
     end
-    redirect_to root_url
+    redirect_to events_path
   end
 
   private
@@ -53,5 +53,8 @@ class EventsController < ApplicationController
 
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def home
   end
 end
