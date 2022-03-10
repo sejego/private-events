@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
 
 # check user
-  before_action :authenticate_user!, except: [:home]
+  before_action :authenticate_user!, except: [:home, :index]
   before_action :set_event, only: [:edit, :update, :destroy]
 
   def index
@@ -13,7 +13,6 @@ class EventsController < ApplicationController
   end
 
   def edit
-
   end
 
   def show
