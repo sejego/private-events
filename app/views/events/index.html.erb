@@ -14,7 +14,7 @@
         <div class="content">
           <strong> <%= event.name %> </strong>
           <br>
-          <i class="fas fa-map-pin"></i> <%= event.location %>
+          <%= event.location %>
           <br>
           Host: <%= link_to event.creators.username , user_path(event.creators) %>
           <br>
@@ -52,7 +52,9 @@
         </header>
         <div class="card-content">
           <div class="content">
-            <strong> <%= event.name %> </strong> || Location: <%= event.location %>
+            <strong> <%= event.name %> </strong>
+            <br>
+            <%= event.location %>
             <br>
             Host: <%= link_to event.creators.username , user_path(event.creators) %>
             <br>
